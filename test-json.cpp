@@ -3,13 +3,7 @@
 #include "lib/json.hpp"
 namespace nl = nlohmann;
 
-/*Get username and tag*/
-std::string username(nl::json file){
-	std::string name = file["username"];
-	int disc = file["discriminator"];
-	std::string fulln = name + "#" + std::to_string(disc);
-	return fulln;
-}
+std::string username(nl::json file);
 
 int main(){
 
@@ -45,4 +39,12 @@ int main(){
 	std::cin >> End;
 
     return 0;
+}
+
+/*Get username and tag*/
+std::string username(nl::json file){
+	std::string name = file["username"];
+	int disc = file["discriminator"];
+	std::string fulln = name + "#" + std::to_string(disc);
+	return fulln;
 }
