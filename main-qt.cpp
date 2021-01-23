@@ -21,14 +21,6 @@ int main(int argc, char *argv[]){
     QApplication app(argc, argv);
     QLabel *text = new QLabel;
     std::string output;
-    /*QLineEdit file;
-    file.setText("Path to file");
-    QPushButton confirm;
-    confirm.setText("Open");*/
-    /*std::string filename;                       //
-    std::cout << "File?" << std::endl;          //
-    std::cin >> filename;                       //Open file
-    std::ifstream openfile(filename);           *///
     fileDialog openthefile;
     std::ifstream file(openthefile.openfile());
     nl::json jfile = nl::json::parse(file); //
@@ -55,8 +47,6 @@ int main(int argc, char *argv[]){
         output += type + " : " + name + "\n";
     }
 
-    /*std::string End;
-    std::cin >> End;*/
     text->setText(QString::fromStdString(output));
     text->show();
     return app.exec();
