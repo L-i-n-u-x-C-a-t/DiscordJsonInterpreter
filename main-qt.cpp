@@ -1,3 +1,5 @@
+#include <QApplication>
+#include <QtWidgets>
 #include <iostream>
 #include <fstream>
 #include "lib/json.hpp"
@@ -5,16 +7,21 @@ namespace nl = nlohmann;
 
 std::string username(nl::json file);
 
-int main(){
+int main(int argc, char *argv[]){
 
-    std::string filename;                       //
+    QApplication app(argc, argv);
+    QLabel *text = new QLabel;
+    std::string output;
+
+	/*std::string filename;                       //
     std::cout << "File?" << std::endl;          //
     std::cin >> filename;                       //Open file
-    std::ifstream openfile(filename);           //
+    std::ifstream openfile(filename);           *///
+    std::ifstream openfile("user.json");
 	nl::json jfile = nl::json::parse(openfile); //
 
-    std::cout << "\nHello "<< username(jfile) << std::endl;
-    std::cout << "You are in " <<  jfile["settings"]["guild_positions"].size() << " servers. ";//get server number
+    output += "Hello " + username(jfile);
+    output += std::string("\nYou are in ") +  std::to_string(jfile["settings"]["guild_positions"].size()) + std::string(" servers.\n");//get server number
     int servinfolders = 0;
     int folders = 0;
     for(int i = 0; i < jfile["settings"]["guild_folders"].size(); i++){ //get number of folders
@@ -24,21 +31,21 @@ int main(){
             folders++;
         }
     }
-    std::cout << servinfolders << " of them are in folders. (there is " << folders << " folders)" << std::endl;
+    output += std::to_string(servinfolders) + std::string(" of them are in folders. (there is ") + std::to_string(folders) + std::string(" folders)\n");
     std::string theme = jfile["settings"]["theme"];
-    std::cout << "You prefer " << theme << " theme." << std::endl;
+    output += "You prefer " + theme + " theme.\n";
 
-    std::cout << "You have the following accounts: " << std::endl;
+    output += "You have the following accounts: \n";
     for(int j = 0; j < jfile["connections"].size();j++){
         std::string type = jfile["connections"][j]["type"];
         std::string name = jfile["connections"][j]["name"];
-        std::cout << type << " : " << name << std::endl;
+        output += type + " : " + name + "\n";
     }
 
-	std::string End;
-	std::cin >> End;
-
-    return 0;
+	/*std::string End;
+	std::cin >> End;*/
+    text->setText(QString::fromStdString(output));
+    return app.exec();
 }
 
 /*Get username and tag*/
