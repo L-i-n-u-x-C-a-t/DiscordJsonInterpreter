@@ -4,21 +4,34 @@
 #include <fstream>
 #include "lib/json.hpp"
 namespace nl = nlohmann;
-
+/* open file (i def need to do a hpp for that*/
+class fileDialog{
+public:
+    std::string openfile(){
+        QString fileName = QFileDialog::getOpenFileName(Q_NULLPTR,
+               "Open json file", "",
+               "JSON file (*.json);;All Files (*)");
+        std::string str = fileName.toStdString();
+        return str;
+    }
+};
 std::string username(nl::json file);
-
 int main(int argc, char *argv[]){
 
     QApplication app(argc, argv);
     QLabel *text = new QLabel;
     std::string output;
-
-	/*std::string filename;                       //
+    /*QLineEdit file;
+    file.setText("Path to file");
+    QPushButton confirm;
+    confirm.setText("Open");*/
+    /*std::string filename;                       //
     std::cout << "File?" << std::endl;          //
     std::cin >> filename;                       //Open file
     std::ifstream openfile(filename);           *///
-    std::ifstream openfile("user.json");
-	nl::json jfile = nl::json::parse(openfile); //
+    fileDialog openthefile;
+    std::ifstream file(openthefile.openfile());
+    nl::json jfile = nl::json::parse(file); //
 
     output += "Hello " + username(jfile);
     output += std::string("\nYou are in ") +  std::to_string(jfile["settings"]["guild_positions"].size()) + std::string(" servers.\n");//get server number
@@ -42,16 +55,19 @@ int main(int argc, char *argv[]){
         output += type + " : " + name + "\n";
     }
 
-	/*std::string End;
-	std::cin >> End;*/
+    /*std::string End;
+    std::cin >> End;*/
     text->setText(QString::fromStdString(output));
+    text->show();
     return app.exec();
 }
 
+
+
 /*Get username and tag*/
 std::string username(nl::json file){
-	std::string name = file["username"];
-	int disc = file["discriminator"];
-	std::string fulln = name + "#" + std::to_string(disc);
-	return fulln;
+    std::string name = file["username"];
+    int disc = file["discriminator"];
+    std::string fulln = name + "#" + std::to_string(disc);
+    return fulln;
 }
