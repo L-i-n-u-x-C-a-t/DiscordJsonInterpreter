@@ -2,6 +2,11 @@
 This program allows you to read your user.json file you got from discord in a more efficient way than just opening it.\
 There is 2 programs here, a command line one and a graphical one.
 
+## TODO
+- [ ] Command line : add the file selection as an argument (ex: `./a.out file.json`)
+- [ ] Graphical : add an "Open file" button
+- [ ] Both : add error handling
+
 ## Building
 ### Command line
 Just do `g++ main.cpp` and it's done.\
